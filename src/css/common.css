@@ -16,3 +16,19 @@ img {
   display: block;
   max-width: 100%;
 }
+
+.timer {
+  width: 220px;
+  display: flex;
+
+}
+
+.field {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  
+}
+.value {
+  font-size: 30px;
+}

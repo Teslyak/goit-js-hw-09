@@ -3,8 +3,6 @@ const refs = {
     start: document.querySelector('button[data-start]'),
     stop: document.querySelector('button[data-stop]')
 }
-
-console.log(refs.body);
 let timerId = null;
 
 refs.start.addEventListener('click', onStartClick);
