@@ -1,6 +1,10 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
-let totalTimes = 0;
+import Notiflix from 'notiflix';
+
+let totalTimes = null;
+let timeId = null;
+
 const refs = {
     start: document.querySelector('button[data-start]'),
     days: document.querySelector('.value[data-days]'),
@@ -17,24 +21,21 @@ const options = {
   minuteIncrement: 1,
     onClose(selectedDates) {
         if (selectedDates[0] < options.defaultDate) {
-            alert('Please choose a date in the future');
+            Notiflix.Notify.failure('Please choose a date in the future');
             return;
         } else {
             refs.start.removeAttribute('disabled');  
             totalTimes = selectedDates[0] - options.defaultDate;
             refs.start.addEventListener('click',onStartClick)
-
-      }
-    
-      
+      } 
   }
 };
+
 flatpickr("input#datetime-picker", options);
 
 function onStartClick() {
-    setInterval(updateTime, 1000);
-    
-}
+   timeId = setInterval(updateTime, 1000); 
+};
   
 function updateTime() {
     const resultTime = convertMs(totalTimes);
@@ -44,7 +45,10 @@ function updateTime() {
             refs.minutes.textContent = timeFormating.minutes;
             refs.seconds.textContent = timeFormating.seconds;
     totalTimes -= 1000;
-}
+    if (totalTimes <= 0) {
+        stopWath();
+    };
+};
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -63,16 +67,17 @@ function convertMs(ms) {
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
     return { days, hours, minutes, seconds };
     
-}
-
+};
 function addLeadingZero(value) {
     let { days, hours, minutes, seconds } = value;
     if (days < 10 || hours < 10 || minutes < 10 || seconds < 10) {
-        
-        days = "0" + days;
-        // hours = hours.padStart(2, "0");
-        // minutes = minutes.padStart(2, "0");
-        // seconds = seconds.padStart(2, "0");
+        days = days.toString().padStart(2, "0");
+        hours = hours.toString().padStart(2, "0");
+        minutes = minutes.toString().padStart(2, "0");
+        seconds = seconds.toString().padStart(2, "0");
     }
     return { days, hours, minutes, seconds };
-}
+};
+function stopWath() {
+    clearInterval(timeId);
+};
