@@ -11,7 +11,7 @@ refs.form.addEventListener('submit', onSubmitBtn);
 
 function onSubmitBtn(e) {
   e.preventDefault();
-  for (i = 1; i <= refs.amount.value; i += 1) {
+  for ( let i = 1; i <= refs.amount.value; i += 1) {
     if (i === 1) {
       delay = Number(refs.delay.value);
       createPromise(i, delay);
