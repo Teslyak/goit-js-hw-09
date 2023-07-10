@@ -11,31 +11,36 @@ refs.form.addEventListener('submit', onSubmitBtn);
 
 function onSubmitBtn(e) {
   e.preventDefault();
-  createPromise(refs.amount.value, refs.delay.value);
-  
+  for (i = 1; i <= refs.amount.value; i += 1) {
+    if (i === 1) {
+      createPromise( i, Number(refs.delay.value));
+    } else {
+     let delay = Number(refs.delay.value) + Number(refs.step.value)
+       createPromise( i, delay);
+    }
+    
+  };
 };
 
 function createPromise(position, delay) {
-  for (i = 1; i <= position; i += 1) {
+
     const promise = new Promise((res, rej) => {
       setTimeout(() => {
           
         const shouldResolve = Math.random() > 0.3;
         if (shouldResolve) {
           res({ position, delay });
-        delay = Number(delay) + Number(refs.step.value)
+      
         } else {
           rej({ position, delay });
-        delay = Number(delay) + Number(refs.step.value)
+          
         }
         
       }, delay);
     });
     
-    promise.then(({ position, delay }) => { console.log(`✅ Fulfilled promise ${position} in ${delay}ms`) })
-      .catch(({ position, delay }) => { console.log(`❌ Rejected promise ${position} in ${delay}ms`) })
-    
+    promise.then(({ position, delay }) => { Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`) })
+      .catch(({ position, delay }) => { Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`) })
   };
 
-};
 
