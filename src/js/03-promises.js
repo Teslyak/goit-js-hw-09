@@ -11,6 +11,11 @@ refs.form.addEventListener('submit', onSubmitBtn);
 
 function onSubmitBtn(e) {
   e.preventDefault();
+  if (refs.delay.value < 0 || refs.step.value < 0 || refs.amount.value <= 0) {
+    Notiflix.Notify.failure(`❌ Please enter correct data     First delay >= 0 , Delay step >= 0, Amount > 0`);
+    return
+  };
+
   for ( let i = 1; i <= refs.amount.value; i += 1) {
     if (i === 1) {
       delay = Number(refs.delay.value);
