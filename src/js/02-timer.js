@@ -10,8 +10,18 @@ const refs = {
     days: document.querySelector('.value[data-days]'),
     hours: document.querySelector('.value[data-hours]'),
     minutes: document.querySelector('.value[data-minutes]'),
-    seconds: document.querySelector('.value[data-seconds]')
+    seconds: document.querySelector('.value[data-seconds]'),
+    input: document.querySelector('#datetime-picker'),
+    body: document.querySelector('body'),
+    div: document.querySelector('.timer')
 };
+
+let makeButtonStop = document.createElement("button")
+refs.body.insertBefore(makeButtonStop, refs.div);
+makeButtonStop.setAttribute("type", "button");
+makeButtonStop.textContent = "Reset";
+makeButtonStop.setAttribute('data-stop', "");
+makeButtonStop.addEventListener('click', onResetClick);
 
 refs.start.setAttribute('disabled', 'disabled');
 const options = {
@@ -34,7 +44,19 @@ const options = {
 flatpickr("input#datetime-picker", options);
 
 function onStartClick() {
-   timeId = setInterval(updateTime, 1000); 
+    timeId = setInterval(updateTime, 1000); 
+    refs.input.setAttribute('disabled', 'disabled');
+    refs.start.setAttribute('disabled', 'disabled');
+    
+};
+
+function onResetClick() {
+    clearInterval(timeId);
+    refs.input.removeAttribute('disabled');
+    refs.days.textContent = "00";
+    refs.hours.textContent = "00";
+    refs.minutes.textContent = "00";
+    refs.seconds.textContent = "00";
 };
   
 function updateTime() {
@@ -46,7 +68,7 @@ function updateTime() {
             refs.seconds.textContent = timeFormating.seconds;
     totalTimes -= 1000;
     if (totalTimes <= 0) {
-        stopWath();
+        stopWath(); 
     };
 };
 
@@ -80,4 +102,6 @@ function addLeadingZero(value) {
 };
 function stopWath() {
     clearInterval(timeId);
+    refs.input.removeAttribute('disabled');
+    
 };
