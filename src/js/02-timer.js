@@ -4,6 +4,7 @@ import Notiflix from 'notiflix';
 
 let totalTimes = null;
 let timeId = null;
+let userTime;
 
 const refs = {
     start: document.querySelector('button[data-start]'),
@@ -35,7 +36,7 @@ const options = {
             return;
         } else {
             refs.start.removeAttribute('disabled');  
-            totalTimes = selectedDates[0] - options.defaultDate;
+            userTime = selectedDates[0];
             refs.start.addEventListener('click',onStartClick)
       } 
   }
@@ -44,6 +45,7 @@ const options = {
 flatpickr("input#datetime-picker", options);
 
 function onStartClick() {
+
     timeId = setInterval(updateTime, 1000); 
     refs.input.setAttribute('disabled', 'disabled');
     refs.start.setAttribute('disabled', 'disabled');
@@ -51,6 +53,7 @@ function onStartClick() {
 };
 
 function onResetClick() {
+    totalTimes = null;
     clearInterval(timeId);
     refs.input.removeAttribute('disabled');
     refs.days.textContent = "00";
@@ -60,6 +63,8 @@ function onResetClick() {
 };
   
 function updateTime() {
+    totalTimes = userTime - Date.now();
+    console.log(totalTimes);
     const resultTime = convertMs(totalTimes);
     const timeFormating = addLeadingZero(resultTime);
             refs.days.textContent = timeFormating.days;
