@@ -17,7 +17,7 @@ const refs = {
     div: document.querySelector('.timer')
 };
 
-let makeButtonStop = document.createElement("button")
+const makeButtonStop = document.createElement("button");
 refs.body.insertBefore(makeButtonStop, refs.div);
 makeButtonStop.setAttribute("type", "button");
 makeButtonStop.textContent = "Reset";
